@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { templateId: string } }
+  { params }: { params: Promise<{ templateId: string }> }
 ) {
   try {
     // Single canonical template served for all IDs
+    const { templateId } = await params;
     const template = bankLoanTemplate;
     return NextResponse.json(template);
   } catch (error) {
