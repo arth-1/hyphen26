@@ -243,7 +243,8 @@ export default function FormAssistant({
         // Fetch the Word template
         const response = await fetch('/Simplified_Bank_Loan_Form.docx');
         if (!response.ok) throw new Error('Could not find the Word template.');
-        const templateBuffer = await response.arrayBuffer();
+        const arrayBuffer = await response.arrayBuffer();
+        const templateBuffer = new Uint8Array(arrayBuffer);
         
         console.log("Template loaded. Preparing data...");
         console.log("Answers:", answers);
@@ -289,7 +290,7 @@ export default function FormAssistant({
         });
 
         // Save the file
-        const blob = new Blob([filledDoc], {
+        const blob = new Blob([filledDoc as BlobPart], {
           type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         });
         saveAs(blob, `Filled_Loan_Application_${Date.now()}.docx`);

@@ -319,8 +319,8 @@ async function createFixedDeposit(
   const { amount, tenure_days, account_id } = params;
 
   // Calculate maturity amount
-  const rate = tenure_days <= 365 ? 6.5 : tenure_days <= 730 ? 7.0 : 7.5; // Mock rates
-  const years = tenure_days / 365;
+  const rate = (tenure_days as number) <= 365 ? 6.5 : (tenure_days as number) <= 730 ? 7.0 : 7.5; // Mock rates
+  const years = (tenure_days as number) / 365;
   const maturityAmount = Number(amount) * Math.pow(1 + rate / 100, years);
 
   const fdId = `FD-${Date.now()}`;
@@ -332,7 +332,7 @@ async function createFixedDeposit(
     tenure_days,
     rate: `${rate}% p.a.`,
     maturityAmount: Math.round(maturityAmount * 100) / 100,
-    maturityDate: new Date(Date.now() + tenure_days * 24 * 60 * 60 * 1000),
+    maturityDate: new Date(Date.now() + (tenure_days as number) * 24 * 60 * 60 * 1000),
     message: `आपका FD सफलतापूर्वक बनाया गया है। परिपक्व राशि: ₹${Math.round(maturityAmount)}`,
   };
 }
@@ -728,7 +728,6 @@ export async function runBankingAIAgent(
 export function parseAmount(text: string): number | null {
   // Extract numbers like "50 thousand", "2 lakhs", "one crore", etc.
   const numberMap: Record<string, number> = {
-    thousand: 1000,
     thousand: 1000,
     lakh: 100000,
     crore: 10000000,

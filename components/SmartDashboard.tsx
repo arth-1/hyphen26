@@ -8,6 +8,7 @@ interface SmartDashboardProps {
   onTransactions: () => void;
   onFinances: () => void;
   onForms: () => void;
+  onBanking: () => void;
   onTransfer: () => void;
   onToggleView: () => void;
   onShowHelp: () => void;
